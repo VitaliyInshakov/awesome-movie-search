@@ -1,41 +1,51 @@
 const express = require("express"),
+    http = require("http"),
     path = require("path"),
+    config = require("./config"),
     cookieParser = require("cookie-parser"),
-    logger = require("morgan");
+    bodyParser = require("body-parser"),
+    logger = require("morgan"),
+    errorHandler = require("errorhandler");
 
 const app = express();
-const port  = process.env.PORT || 3000;
+const PORT = config.get("port");
 
-app.set("port", port);
-app.listen(port, () => {
-  console.log(`Listening server on port: ${port}`);
-});
+const indexRouter = require("./routes/");
+
+app.set("port", PORT);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+if (app.get("env") === "development") {
+  app.use(logger("dev"));
+} else {
+  app.use(logger("default"));
+}
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use('/', indexRouter);
+app.use("/", indexRouter);
 // app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  if (app.get("env") === "development") {
+    app.use(errorHandler());
+  } else {
+    res.send(500);
+  }
+});
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.get("*", (req, res) => {
+  res.send("<h1>Error 404!! Sorry, Page Not Found</h1>");
+});
+
+http.createServer(app).listen(PORT, () => {
+  console.log(`Express server listening on port ${PORT}`);
 });
