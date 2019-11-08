@@ -1,7 +1,31 @@
 <% include partials/header %>
 
 <div class="container">
+    <div class="top-block">
+        <h1 class="title">Awesome Search Movies App</h1>
+        <hr class="my-4"/>
 
+        <% include partials/searchForm %>
+    </div>
+
+    <h2 class="mb-3">Daily Trending</h2>
+    <div class="row">
+        <% for (let i = 0, len = movies.length; i < len; i++) { %>
+            <% let movie = movies[i]; %>
+            <% if(movie.poster_path != null) { %>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="movie-block">
+                        <% imageUrl = `https://image.tmdb.org/t/p/w300/${movie.poster_path}` %>
+                        <img src="<%= imageUrl %>" alt="poster"/>
+                        <span>
+                            <%= movie.title %>
+                            (<%= movie.release_date.split("-")[0] %>)
+                        </span>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
 </div>
 
 <% include partials/footer %>
