@@ -35,3 +35,9 @@ hr {
         height: 360px;
     }
 }
+
+.error {
+    color: red;
+    text-transform: uppercase;
+    font-weight: bold;
+}
