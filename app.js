@@ -10,13 +10,7 @@ const express = require("express"),
 const app = express();
 const PORT = config.get("port");
 
-const indexRouter = require("./routes/");
-
 app.set("port", PORT);
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
 
 if (app.get("env") === "development") {
   app.use(logger("dev"));
@@ -28,10 +22,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "public")));
+if (app.get("env") === "production") {
+  app.use(express.static("client/build"));
 
-app.use("/", indexRouter);
-// app.use('/users', usersRouter);
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
+require("./routes/index")(app);
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -40,10 +39,6 @@ app.use(function(err, req, res, next) {
   } else {
     res.send(500);
   }
-});
-
-app.get("*", (req, res) => {
-  res.send("<h1>Error 404!! Sorry, Page Not Found</h1>");
 });
 
 http.createServer(app).listen(PORT, () => {
