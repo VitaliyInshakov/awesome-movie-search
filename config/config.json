@@ -1,0 +1,5 @@
+{
+    "port": 5000,
+    "tmdbApiKey": "b68ec664eb81f5cca6ad604792689ab6",
+    "trendingUrl": "https://api.themoviedb.org/3/trending/movie"
+}
