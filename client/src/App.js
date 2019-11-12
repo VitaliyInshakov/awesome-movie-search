@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import axios from "axios";
 
 import Movie from "./components/Movie";
-import Search from "./components/Search";
+import Home from "./components/Home";
 
 import {
     initialState,
@@ -61,18 +61,7 @@ const App = () => {
 
     return (
         <div className="App container">
-            <div className="top-block">
-                <h1 className="title">Awesome Search Movies App</h1>
-                <hr className="my-4"/>
-
-                <Search search={search} />
-            </div>
-
-            {!loading && movies
-                ? <h2 className="mb-3">{renderTitle}</h2>
-                : null
-            }
-            {movies ? <div className="row justify-content-center">{renderMovies}</div> : null}
+            <Home/>
         </div>
     );
 };
