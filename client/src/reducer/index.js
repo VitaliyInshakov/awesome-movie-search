@@ -4,7 +4,7 @@ export const SEARCH_MOVIE_FAILURE = "SEARCH_MOVIE_FAILURE";
 
 export const initialState = {
     loading: false,
-    movies: [],
+    movies: null,
     error: null,
 };
 

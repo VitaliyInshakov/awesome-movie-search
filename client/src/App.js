@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 import axios from "axios";
 
 import Movie from "./components/Movie";
@@ -16,26 +16,22 @@ import "./App.css";
 const App = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    // useEffect(() => {
-    //     axios.get("/api/trending")
-    //         .then(response => console.log(response.data));
-    // });
     const search = searchValue => {
         dispatch({
             type: SEARCH_MOVIE_REQUEST,
         });
 
-        axios.get(`/api/search/?query=${searchValue}`)
-            .then(response => {
-                if (response.data.results) {
+        axios.post(`/api/search`, { searchValue })
+            .then(({ data: { response, errors } }) => {
+                if (response) {
                     dispatch({
                         type: SEARCH_MOVIE_SUCCESS,
-                        payload: response.data.results,
+                        payload: response,
                     });
                 } else {
                     dispatch({
                         type: SEARCH_MOVIE_FAILURE,
-                        error: response.data.errors || response.data.status_message,
+                        error: errors,
                     });
                 }
             });
@@ -46,14 +42,21 @@ const App = () => {
     const renderMovies = loading && !error ? (
         <i className="fas fa-spinner fa-spin fa-2x"/>
     ) : error ? (
-        <div>
-            <h3>Something went wrong!!!</h3>
-            <div className="error">{error}</div>
-        </div>
-    ) : (
+        <div className="error">{error}</div>
+    ) : movies && movies.length ? (
         movies.map((movie, idx) => (
             <Movie key={idx} movie={movie}/>
         ))
+    ) : (
+        <div>Unfortunately we could not find anything by your request.</div>
+    );
+
+    const renderTitle = error ? (
+        "Something went wrong!!!"
+    ) : movies && movies.length ? (
+        "Search Results"
+    ) : (
+        "Nothing found!"
     );
 
     return (
@@ -65,11 +68,11 @@ const App = () => {
                 <Search search={search} />
             </div>
 
-            {movies.length && !loading && !error
-                ? <h2 className="mb-3">Search Results</h2>
+            {!loading && movies
+                ? <h2 className="mb-3">{renderTitle}</h2>
                 : null
             }
-            <div className="row justify-content-center">{renderMovies}</div>
+            {movies ? <div className="row justify-content-center">{renderMovies}</div> : null}
         </div>
     );
 };
