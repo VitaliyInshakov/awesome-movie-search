@@ -41,3 +41,32 @@ hr {
     text-transform: uppercase;
     font-weight: bold;
 }
+
+.response-container {
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    top: 100%;
+    left: 15px;
+    right: 15px;
+    background: #efefef;
+    z-index: 1;
+    box-shadow: 0 0 48px rgba(0,0,0,.59);
+    transition: all .2s ease 0s;
+}
+
+.form-control:focus + .response-container {
+    visibility: visible;
+    opacity: 1;
+}
+
+.results-block {
+    height: 300px;
+}
+
+.search-list {
+    background: #1d1d1d;
+    padding: 20px 70px 30px 14px;
+    height: 100%;
+}
