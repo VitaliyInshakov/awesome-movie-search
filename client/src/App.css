@@ -62,11 +62,48 @@ hr {
 }
 
 .results-block {
-    height: 300px;
+    height: 500px;
 }
 
 .search-list {
     background: #1d1d1d;
-    padding: 20px 70px 30px 14px;
+    padding: 0 70px 0 15px;
     height: 100%;
+    overflow: auto;
+}
+
+.search-item {
+    display: flex;
+    padding: 20px 0;
+}
+
+.search-item:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.item-img-wrap {
+    display: block;
+    width: 145px;
+    height: 200px;
+}
+
+.item-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.item-info {
+    padding-left: 35px;
+    text-align: left;
+    flex: 1;
+}
+
+.item-info-header {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.item-info-text {
+    opacity: 0.5;
 }

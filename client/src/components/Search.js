@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import debounce from "lodash/debounce";
 
 const Search = () => {
     const [searchValue, setSearchValue] = useState("");
@@ -8,26 +9,31 @@ const Search = () => {
 
     let history = useHistory();
 
-    const handleChangeSearchInput = (e) => {
-        const value = e.target.value;
-
-        if (value) {
-            axios.post("/api/search", { searchValue: value })
-                .then(({ data: { response } }) => {
-                    setMovies(response);
-                });
-        }
-
-        setSearchValue(value);
-
-        // setSearchValue("");
-    };
-
     const handleButtonClick = () => {
         history.push({
             pathname: "/search",
             search: `?query=${searchValue}`,
         });
+    };
+
+    const debounceCallback = useCallback(
+        debounce(value => {
+            axios.post("/api/search", { searchValue: value })
+                .then(({ data: { response } }) => {
+                    if (response) {
+                        setMovies(response);
+                    } else {
+                        setMovies([]);
+                    }
+                });
+        }, 400),
+        []
+    );
+
+    const onInputChangeHandler = ({ target: { value } }) => {
+        setSearchValue(value);
+
+        debounceCallback(value);
     };
 
     return (
@@ -38,18 +44,20 @@ const Search = () => {
                         type="text"
                         className="form-control"
                         value={searchValue}
-                        onChange={handleChangeSearchInput}
+                        onChange={onInputChangeHandler}
                         placeholder="Search Movies..."/>
 
                         <div className="response-container">
                             {movies.length ? (
                                 <div className="results-block">
                                     <div className="search-list">
-                                        {movies.map((movie) => {
+                                        {movies.map((movie, idx) => {
                                             const imgURL = `https://image.tmdb.org/t/p/w300/${movie.poster_path}`;
-                                            return (
-                                                <div className="search-item">
-                                                    <img className="item-img" src={imgURL} alt={movie.title}/>
+                                            return movie.poster_path ? (
+                                                <div className="search-item" key={idx}>
+                                                    <div className="item-img-wrap">
+                                                        <img className="item-img" src={imgURL} alt={movie.title}/>
+                                                    </div>
                                                     <div className="item-info">
                                                         <div className="item-info-header">
                                                             {movie.title}
@@ -58,7 +66,7 @@ const Search = () => {
                                                         <p className="item-info-text">{movie.overview}</p>
                                                     </div>
                                                 </div>
-                                            )
+                                            ): null
                                         })}
                                     </div>
                                 </div>
