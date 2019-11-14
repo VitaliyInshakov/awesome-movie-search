@@ -2,10 +2,12 @@ import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import debounce from "lodash/debounce";
+import QuickResults from "./QuickResults";
 
 const Search = () => {
     const [searchValue, setSearchValue] = useState("");
     const [movies, setMovies] = useState([]);
+    const [errors, setErrors] = useState("");
 
     let history = useHistory();
 
@@ -19,11 +21,13 @@ const Search = () => {
     const debounceCallback = useCallback(
         debounce(value => {
             axios.post("/api/search", { searchValue: value })
-                .then(({ data: { response } }) => {
-                    if (response) {
-                        setMovies(response);
-                    } else {
+                .then(({ data: { response, errors } }) => {
+                    if (errors) {
                         setMovies([]);
+                        setErrors("");
+                    } else {
+                        setMovies(response);
+                        if (!response.length) setErrors("Unfortunately we could not find anything by your request");
                     }
                 });
         }, 400),
@@ -48,29 +52,12 @@ const Search = () => {
                         placeholder="Search Movies..."/>
 
                         <div className="response-container">
-                            {movies.length ? (
-                                <div className="results-block">
-                                    <div className="search-list">
-                                        {movies.map((movie, idx) => {
-                                            const imgURL = `https://image.tmdb.org/t/p/w300/${movie.poster_path}`;
-                                            return movie.poster_path ? (
-                                                <div className="search-item" key={idx}>
-                                                    <div className="item-img-wrap">
-                                                        <img className="item-img" src={imgURL} alt={movie.title}/>
-                                                    </div>
-                                                    <div className="item-info">
-                                                        <div className="item-info-header">
-                                                            {movie.title}
-                                                            <span className="ml-1">({movie.release_date.split("-")[0]})</span>
-                                                        </div>
-                                                        <p className="item-info-text">{movie.overview}</p>
-                                                    </div>
-                                                </div>
-                                            ): null
-                                        })}
-                                    </div>
-                                </div>
-                            ) : null}
+                            {!errors && !movies.length
+                                ?  null
+                                : errors && !movies.length
+                                    ? <div className="not-found-movie">{errors}</div>
+                                    : <QuickResults movies={movies} />
+                            }
                         </div>
                 </div>
                 <div className="col-lg-2 col-sm-3 col-4">

@@ -107,3 +107,10 @@ hr {
 .item-info-text {
     opacity: 0.5;
 }
+
+.not-found-movie {
+    background: #1d1d1d;
+    color: red;
+    font-size: 16px;
+    padding: 20px 0;
+}
