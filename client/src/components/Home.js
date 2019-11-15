@@ -8,6 +8,7 @@ import {
     initialState,
     reducer,
     SEARCH_MOVIE_SUCCESS,
+    SEARCH_MOVIE_REQUEST,
 } from "../reducer";
 
 const Home = () => {
@@ -15,6 +16,10 @@ const Home = () => {
 
     useEffect(() => {
         let mounted = true;
+
+        dispatch({
+            type: SEARCH_MOVIE_REQUEST,
+        });
 
         axios.get("/api/trending")
             .then(({ data: { response } }) => {
@@ -31,7 +36,7 @@ const Home = () => {
         };
     }, []);
 
-    const { movies } = state;
+    const { movies, loading } = state;
 
     return (
         <>
@@ -39,14 +44,15 @@ const Home = () => {
                 <h1 className="title">Awesome Search Movies App</h1>
                 <hr className="my-4"/>
 
-                <Search search={() => null} />
+                <Search />
             </div>
             <h2 className="mb-3">Trending movies</h2>
 
             <div className="row justify-content-center">
-                {movies.map((movie, idx) => (
-                    <Movie key={idx} movie={movie} />
-                ))}
+                {loading
+                    ? <i className="fas fa-spinner fa-spin fa-2x"/>
+                    : movies.map((movie, idx) => <Movie key={idx} movie={movie} />)
+                }
             </div>
         </>
     )

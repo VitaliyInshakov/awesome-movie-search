@@ -61,8 +61,8 @@ const Search = () => {
                         </div>
                 </div>
                 <div className="col-lg-2 col-sm-3 col-4">
-                    <button type="submit" className="btn btn-primary" onClick={handleButtonClick}>
-                        <i className="fas fa-search"/>
+                    <button type="submit" className="btn btn-primary w-100" onClick={handleButtonClick}>
+                        <i className="fas fa-search mr-2"/>
                         Search
                     </button>
                 </div>
