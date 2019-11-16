@@ -1,4 +1,4 @@
-#This project created for simple search movies in The Movie DataBase
+# This project created for simple search movies in The Movie DataBase
 
 1. Backend part - Express (Node.js)
 2. Frontend part - React
