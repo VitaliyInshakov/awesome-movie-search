@@ -8,7 +8,7 @@ const express = require("express"),
     errorHandler = require("errorhandler");
 
 const app = express();
-const PORT = config.get("port");
+const PORT = process.env.PORT || config.get("port");
 
 app.set("port", PORT);
 
