@@ -41,7 +41,7 @@ const Home = () => {
     return (
         <>
             <div className="top-block">
-                <h1 className="title">Awesome Search Movies App</h1>
+                <h1 className="title text-center">Awesome Search Movies App</h1>
                 <hr className="my-4"/>
 
                 <Search />
