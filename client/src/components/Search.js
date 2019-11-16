@@ -11,11 +11,17 @@ const Search = () => {
 
     let history = useHistory();
 
-    const handleButtonClick = () => {
+    const handleButtonClick = (e) => {
+        e.preventDefault();
+
         history.push({
             pathname: "/search",
             search: `?query=${searchValue}`,
+            state: { movies, errors },
         });
+
+        setMovies([]);
+        setErrors("");
     };
 
     const debounceCallback = useCallback(
@@ -41,7 +47,7 @@ const Search = () => {
     };
 
     return (
-        <form className="form-group" autoComplete="off">
+        <form className="form-group" autoComplete="off" onSubmit={handleButtonClick}>
             <div className="row">
                 <div className="col-lg-10 col-sm-9 col-8">
                     <input
@@ -61,7 +67,7 @@ const Search = () => {
                         </div>
                 </div>
                 <div className="col-lg-2 col-sm-3 col-4">
-                    <button type="submit" className="btn btn-primary w-100" onClick={handleButtonClick}>
+                    <button type="submit" className="btn btn-primary w-100">
                         <i className="fas fa-search mr-2"/>
                         Search
                     </button>

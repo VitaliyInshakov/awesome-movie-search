@@ -68,13 +68,14 @@ hr {
 
 .search-list {
     background: #1d1d1d;
-    padding: 0 70px 0 15px;
+    padding: 0 15px;
     height: 100%;
     overflow: auto;
 }
 
 .search-item {
     display: flex;
+    flex-wrap: wrap;
     padding: 20px 0;
 }
 
@@ -95,9 +96,16 @@ hr {
 }
 
 .item-info {
-    padding-left: 35px;
+    padding-top: 10px;
     text-align: left;
-    flex: 1;
+}
+
+@media (min-width: 768px) {
+    .item-info {
+        padding-top: 0;
+        padding-left: 35px;
+        flex: 1;
+    }
 }
 
 .item-info-header {
@@ -114,4 +122,5 @@ hr {
     color: red;
     font-size: 16px;
     padding: 20px 0;
+    text-align: center;
 }

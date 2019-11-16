@@ -7,7 +7,7 @@ const QuickResults = ({movies}) => {
                 {movies.map((movie, idx) => {
                     const imgURL = `https://image.tmdb.org/t/p/w300/${movie.poster_path}`;
                     return movie.poster_path ? (
-                        <div className="search-item" key={idx}>
+                        <div className="search-item flex-md-nowrap" key={idx}>
                             <div className="item-img-wrap">
                                 <img className="item-img" src={imgURL} alt={movie.title}/>
                             </div>
