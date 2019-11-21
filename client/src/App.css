@@ -30,6 +30,11 @@ hr {
     transition: all ease 500ms;
 }
 
+.movie-block:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 @media (min-width: 576px) {
     .movie-block img {
         width: 100%;

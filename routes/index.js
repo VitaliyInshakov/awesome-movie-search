@@ -36,4 +36,16 @@ module.exports = (app) => {
         });
     });
 
+    app.get("/api/moviedetails/:movieId", function (req, res) {
+        request(`https://api.themoviedb.org/3/movie/${req.params.movieId}?api_key=${tmdbApiKey}&language=en-US`,
+            (err, resp, body) => {
+                const data = JSON.parse(body);
+
+                res.send({
+                    status: resp.statusCode,
+                    errors: data.errors || data.status_message || null,
+                    response: data || null,
+                });
+            });
+    });
 };
