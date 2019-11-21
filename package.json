@@ -1,12 +1,13 @@
 {
     "name": "awesome-movie-search",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "private": true,
     "scripts": {
         "start": "node app.js",
         "server": "nodemon app.js",
         "client": "npm run start --prefix client",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "heroku-postbuild": "cd client && yarn && yarn run build"
     },
     "dependencies": {
         "body-parser": "^1.19.0",

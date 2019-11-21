@@ -1,4 +1,6 @@
-#This project created for simple search movies in The Movie DataBase
+# This project created for simple search movies in The Movie DataBase
+
+App deployed on https://awesome-movie-search.herokuapp.com/
 
 1. Backend part - Express (Node.js)
 2. Frontend part - React
