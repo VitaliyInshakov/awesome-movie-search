@@ -24,6 +24,16 @@ const Search = () => {
         setErrors("");
     };
 
+    const handleMovieClick = (id) => {
+        return () => {
+            history.push(`/moviedetails/${id}`);
+
+            setMovies([]);
+            setSearchValue("");
+        };
+    };
+
+
     const debounceCallback = useCallback(
         debounce(value => {
             axios.post("/api/search", { searchValue: value })
@@ -62,7 +72,7 @@ const Search = () => {
                                 ?  null
                                 : errors && !movies.length
                                     ? <div className="not-found-movie">{errors}</div>
-                                    : <QuickResults movies={movies} />
+                                    : <QuickResults movies={movies} handleClick={handleMovieClick} />
                             }
                         </div>
                 </div>

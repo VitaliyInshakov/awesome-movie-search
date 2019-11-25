@@ -1,12 +1,11 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Search from "./Search";
 import Movie from "./Movie";
 
-const Results = () => {
-    let history = useHistory();
-    const { movies, errors } = history.location.state;
+const Results = (props) => {
+    const { movies, errors } = props.history.location.state;
 
     return (
         <>
