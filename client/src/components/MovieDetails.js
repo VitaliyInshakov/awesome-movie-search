@@ -33,7 +33,9 @@ const MovieDetails = (props) => {
                 >Back</button>
                 <Search />
             </div>
-            <div className="row justify-content-cente">
+
+            <h1 className="mb-3">Movie Details</h1>
+            <div className="row justify-content-center">
                 {loading && !movie
                     ? <i className="fas fa-spinner fa-spin fa-2x"/>
                     : movie

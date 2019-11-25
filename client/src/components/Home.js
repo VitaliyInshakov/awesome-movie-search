@@ -1,33 +1,24 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Search from "./Search";
 import Movie from "./Movie";
 
-import {
-    initialState,
-    reducer,
-    SEARCH_MOVIE_SUCCESS,
-    SEARCH_MOVIE_REQUEST,
-} from "../reducer";
 
 const Home = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [loading, setLoading] = useState(false);
+    const [movies, setMovies] = useState([]);
 
     useEffect(() => {
         let mounted = true;
 
-        dispatch({
-            type: SEARCH_MOVIE_REQUEST,
-        });
+        setLoading(true);
 
         axios.get("/api/trending")
             .then(({ data: { response } }) => {
                 if (mounted) {
-                    dispatch({
-                        type: SEARCH_MOVIE_SUCCESS,
-                        payload: response,
-                    });
+                    setMovies(response);
+                    setLoading(false);
                 }
             });
 
@@ -35,8 +26,6 @@ const Home = () => {
             mounted = false;
         };
     }, []);
-
-    const { movies, loading } = state;
 
     return (
         <>

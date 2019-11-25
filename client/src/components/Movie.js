@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-const Movie = ({ movie }) => {
+const Movie = React.memo(({ movie }) => {
     let history = useHistory();
     const imgURL = `https://image.tmdb.org/t/p/w300/${movie.poster_path}`;
 
@@ -21,6 +21,6 @@ const Movie = ({ movie }) => {
         </div>
         :  null
     );
-};
+});
 
 export default Movie;
